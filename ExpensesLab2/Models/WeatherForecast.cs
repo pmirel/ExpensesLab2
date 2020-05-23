@@ -1,6 +1,7 @@
 using System;
 
-namespace ExpensesLab2
+namespace ExpensesLab2.Models
+
 {
     public class WeatherForecast
     {
