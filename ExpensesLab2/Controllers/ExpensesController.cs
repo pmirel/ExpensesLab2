@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpensesLab2.Models;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace ExpensesLab2.Controllers
 {
@@ -22,9 +23,28 @@ namespace ExpensesLab2.Controllers
 
         // GET: api/Expenses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
+        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses(
+            DateTimeOffset? from = null,
+            DateTimeOffset? to = null,
+            [FromQuery]Models.TypeOfExpense? typeOfExpense = null)
         {
-            return await _context.Expenses.ToListAsync();
+            IQueryable<Expense> result = _context.Expenses;
+
+            if (from != null)
+            {
+                result = result.Where(f => from <= f.DateAdded);
+            }
+            if (to != null)
+            {
+                result = result.Where(f => f.DateAdded <= to);
+            }
+            if (typeOfExpense != null)
+            {
+                result = result.Where(f => f.TypeOfExpense == typeOfExpense);
+            }
+            var resultList = await result.ToListAsync();
+            return resultList;
+                
         }
 
         // GET: api/Expenses/5
