@@ -40,6 +40,7 @@ namespace ExpensesLab2
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                 })
+
                  .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddDbContext<ExpensesDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ExpensesDbConnectionString")));
             services.AddControllers();

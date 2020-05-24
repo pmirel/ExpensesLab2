@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ExpensesLab2.Models
@@ -10,7 +11,9 @@ namespace ExpensesLab2.Models
         public long Id { get; set; }
         public string Text { get; set; }
         public bool Important { get; set; }
-
+        public long ExpenseId { get; set; }
+        [JsonIgnore]
         public Expense Expense { get; set; }
+        
     }
 }

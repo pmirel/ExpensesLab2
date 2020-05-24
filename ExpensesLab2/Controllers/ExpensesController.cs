@@ -58,7 +58,10 @@ namespace ExpensesLab2.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Expense>> GetExpense(long id)
         {
-            var expense = await _context.Expenses.FindAsync(id);
+            var expense = await _context
+                .Expenses
+                .Include(e => e.Comments)
+                .SingleOrDefaultAsync(e => e.Id == id);
 
             if (expense == null)
             {
