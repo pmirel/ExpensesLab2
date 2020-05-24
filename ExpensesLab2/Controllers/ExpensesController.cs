@@ -22,6 +22,13 @@ namespace ExpensesLab2.Controllers
         }
 
         // GET: api/Expenses
+        /// <summary>
+        /// Get a list of all the expenses
+        /// </summary>
+        /// <param name="from">Filter expenses from a specific date. Leave empty for displaying all.</param>
+        /// <param name="to">Filter expenses to a specific date. Leave empty for displaying all.</param>
+        /// <param name="typeOfExpense">Filter expenses by a specific type. Leave empty for displaying all.</param>
+        /// <returns>Alist of all the expenses</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses(
             DateTimeOffset? from = null,

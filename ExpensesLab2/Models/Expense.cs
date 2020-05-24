@@ -25,5 +25,7 @@ namespace ExpensesLab2.Models
         public DateTimeOffset DateAdded { get; set; }
         public string Currency  {get; set;}
         public TypeOfExpense TypeOfExpense { get; set; }
+
+        public List<Comment> Comments { get; set; }
     }
 }
