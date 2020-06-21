@@ -12,7 +12,19 @@ namespace ExpensesLab2.ModelValidators
     {
         public CommentValidator()
         {
-            RuleFor(x => x.Text).MinimumLength(5).MaximumLength(20);
+            RuleFor(x => x.Id).NotNull();
+
+            RuleFor(x => x.Text)
+                .Length(3, 20)
+                .WithMessage("Text must have minimum 3 characters and maximum 20.");
+
+            RuleFor(x => x.Important)
+                .NotEmpty()
+                .WithMessage("You must select the importance of this comment");
+
+            RuleFor(x => x.Text)
+                .NotEmpty()
+                .WithMessage("Text cannot be empty.");
         }
     }
 }
