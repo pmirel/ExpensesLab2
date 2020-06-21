@@ -12,6 +12,8 @@ namespace ExpensesLab2.ModelValidators
         public ExpenseValidator()
         {
             RuleFor(x => x.Description).NotNull();
+            RuleFor(x => x.DateAdded).LessThan(DateTime.Now);
+            RuleFor(x => x.Sum).GreaterThan(0);
         }
     }
 }
