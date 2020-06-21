@@ -55,6 +55,11 @@ namespace ExpensesLab2.Controllers
         }
 
         // GET: api/Expenses/5
+        /// <summary>
+        /// Get a detail view of a specific expense
+        /// </summary>
+        /// <param name="id">Specify the id of expense you wanna see the detail</param>
+        /// <returns>A detail view of a specific expense</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Expense>> GetExpense(long id)
         {
@@ -72,6 +77,12 @@ namespace ExpensesLab2.Controllers
         }
 
         // PUT: api/Expenses/5
+        /// <summary>
+        /// Update a specific expense
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="expense">The name of the expense</param>
+        /// <returns></returns> 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -104,9 +115,42 @@ namespace ExpensesLab2.Controllers
         }
 
         // POST: api/Expenses
+        /// <summary>
+        /// Create a new expense
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/Expense
+        ///     
+        ///    {
+        ///         "id": 1,
+        ///         "description": "Cumparatura",
+        ///         "sum": 12.25,
+        ///         "location": "Lidl",
+        ///         "dateAdded": "2020-05-23T21:45:59.2625429+03:00",
+        ///         "currency": "Lei",
+        ///         "typeOfExpense": "Food",
+        ///         "comments": [
+        ///             {
+        ///                 "id": 4,
+        ///                 "text": "bautura",
+        ///                 "important": false,
+        ///                 "expenseId": 1
+        ///             }
+        ///                     ]
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="expense"></param>
+        /// <returns>Returns the result </returns>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response> 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Expense>> PostExpense(Expense expense)
         {
             _context.Expenses.Add(expense);
@@ -116,6 +160,11 @@ namespace ExpensesLab2.Controllers
         }
 
         // DELETE: api/Expenses/5
+        /// <summary>
+        /// Delete  specific expense
+        /// </summary>
+        /// <param name="id">Specify the id of the expense you want to delete</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Expense>> DeleteExpense(long id)
         {

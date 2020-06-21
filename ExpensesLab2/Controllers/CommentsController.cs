@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +21,10 @@ namespace ExpensesLab2.Controllers
         }
 
         // GET: api/Comments
+        /// <summary>
+        /// Get a list of all comments
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
@@ -28,6 +32,11 @@ namespace ExpensesLab2.Controllers
         }
 
         // GET: api/Comments/5
+        /// <summary>
+        /// Get a list of comments from a specific expense
+        /// </summary>
+        /// <param name="id">The id of the expense</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(long id)
         {
@@ -42,6 +51,12 @@ namespace ExpensesLab2.Controllers
         }
 
         // PUT: api/Comments/5
+        /// <summary>
+        /// Update a comment
+        /// </summary>
+        /// <param name="id">The id of comment to update</param>
+        /// <param name="comment">Name to update</param>
+        /// <returns>Nothing</returns>
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -74,9 +89,29 @@ namespace ExpensesLab2.Controllers
         }
 
         // POST: api/Comments
+        /// <summary>
+        /// Add a new comment.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// {
+        ///     "id": 0,
+        ///     "text": "string",
+        ///     "important": true,
+        ///     "expenseId": 0
+        /// }
+        /// </remarks>
+        /// <param name="comment">The comment to be added.</param>
+        /// <returns>A comment.</returns>
+        /// <response code="201">Returns the newly created Comment</response>
+        /// <response code="400">If the Comment is null</response> 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
             _context.Comments.Add(comment);
@@ -86,6 +121,11 @@ namespace ExpensesLab2.Controllers
         }
 
         // DELETE: api/Comments/5
+        /// <summary>
+        /// Delete a specific comment
+        /// </summary>
+        /// <param name="id">The id of the comment to delete</param>
+        /// <returns>The comment wich was deleted</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(long id)
         {
