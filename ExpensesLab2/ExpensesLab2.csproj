@@ -11,10 +11,25 @@
 
     <ItemGroup>
       <Compile Remove="ClientApp\node_modules\**" />
+      <Compile Remove="NewFolder1\**" />
+      <Compile Remove="NewFolder2\**" />
+      <Compile Remove="NewFolder\**" />
       <Content Remove="ClientApp\node_modules\**" />
+      <Content Remove="NewFolder1\**" />
+      <Content Remove="NewFolder2\**" />
+      <Content Remove="NewFolder\**" />
       <EmbeddedResource Remove="ClientApp\node_modules\**" />
+      <EmbeddedResource Remove="NewFolder1\**" />
+      <EmbeddedResource Remove="NewFolder2\**" />
+      <EmbeddedResource Remove="NewFolder\**" />
       <None Remove="ClientApp\node_modules\**" />
+      <None Remove="NewFolder1\**" />
+      <None Remove="NewFolder2\**" />
+      <None Remove="NewFolder\**" />
       <TypeScriptCompile Remove="ClientApp\node_modules\**" />
+      <TypeScriptCompile Remove="NewFolder1\**" />
+      <TypeScriptCompile Remove="NewFolder2\**" />
+      <TypeScriptCompile Remove="NewFolder\**" />
     </ItemGroup>
 
   <ItemGroup>

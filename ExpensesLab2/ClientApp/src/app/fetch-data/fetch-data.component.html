@@ -5,7 +5,6 @@
 <p *ngIf="!expenses"><em>Loading...</em></p>
 
 
-
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="expenses">
     <thead>
         <tr>
@@ -14,7 +13,9 @@
             <th>Location</th>
             <th>Date Added</th>
             <th>Currency</th>
+            <th>Type of expense</th>
             <th>Number of comments</th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>
@@ -24,25 +25,12 @@
             <td>{{ expense.location }}</td>
             <td>{{ expense.dateAdded }}</td>
             <td>{{ expense.currency }}</td>
-            
+            <td>{{ expense.typeOfExpense }}</td>
+            <td>{{ expense.numberOfComments }}</td>
+            <td><a>Detail</a><br /> <a>Edit</a><br /> <a>Delete</a></td>
+
 
         </tr>
     </tbody>
 </table>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="comments">
-    <thead>
-        <tr>
-            <th>Text</th>
-            <th>Importance</th>
-            <th>Expense Id</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let comment of comments">
-            <td>{{ comment.text }}</td>
-            <td>{{ comment.important }}</td>
-            <td>{{ comment.expenseId }}</td>
-        </tr>
-    </tbody>
-</table>

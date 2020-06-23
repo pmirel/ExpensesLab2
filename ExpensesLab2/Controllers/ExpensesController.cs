@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ExpensesLab2.Models;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ExpensesLab2.ViewModel;
 
 namespace ExpensesLab2.Controllers
 {
@@ -30,7 +31,7 @@ namespace ExpensesLab2.Controllers
         /// <param name="typeOfExpense">Filter expenses by a specific type. Leave empty for displaying all.</param>
         /// <returns>Alist of all the expenses</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses(
+        public async Task<ActionResult<IEnumerable<ExpensesWithNumberOfComments>>> GetExpenses(
             DateTimeOffset? from = null,
             DateTimeOffset? to = null,
             [FromQuery]Models.TypeOfExpense? typeOfExpense = null)
@@ -49,7 +50,17 @@ namespace ExpensesLab2.Controllers
             {
                 result = result.Where(f => f.TypeOfExpense == typeOfExpense);
             }
-            var resultList = await result.ToListAsync();
+            var resultList = await result
+                .Select(f => new ExpensesWithNumberOfComments {
+                    Id = f.Id,
+                    Description = f.Description,
+                    Sum = f.Sum,
+                    DateAdded = f.DateAdded,
+                    Currency = f.Currency,
+                    TypeOfExpense = f.TypeOfExpense,
+                    NumberOfComments = f.Comments.Count
+                })
+                .ToListAsync();
             return resultList;
                 
         }

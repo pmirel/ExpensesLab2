@@ -7,14 +7,14 @@ namespace ExpensesLab2.Models
 {
     public enum TypeOfExpense
     {
-        Food,
-        Utilities,
-        Transportation,
-        Outing,
-        Groceries,
-        Clothes,
-        Electronics,
-        Other
+        Food = 0,
+        Utilities = 1,
+        Transportation = 2,
+        Outing = 3,
+        Groceries = 4,
+        Clothes = 5,
+        Electronics = 6,
+        Other = 7
     }
     public class Expense
     {

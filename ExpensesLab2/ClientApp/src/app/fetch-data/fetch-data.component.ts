@@ -6,14 +6,12 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './fetch-data.component.html'
 })
 export class FetchDataComponent {
-    public forecasts: WeatherForecast[];
+    
     public expenses: Expense[];
     public comments: Comment[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'weatherforecast').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+    
 
       http.get<Expense[]>(baseUrl + 'api/Expenses').subscribe(result => {
 
@@ -23,22 +21,9 @@ export class FetchDataComponent {
           console.log(this.expenses);
       }, error => console.error(error));
 
-      http.get<Comment[]>(baseUrl + 'api/Comments').subscribe(result => {
-
-
-          this.comments = result;
-
-          console.log(this.comments);
-      }, error => console.error(error));
   }
 }
 
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
 
 interface Expense {
     description: string;
@@ -46,11 +31,18 @@ interface Expense {
     location: string;
     dateAdded: Date;
     currency: string;
-    
+    typeOfExpense: TypeOfExpense;
 }
 
-interface Comments {
-    text: string;
-    important: boolean;
-    expenseId: number;
+
+
+enum TypeOfExpense {
+    Food = 0,
+    Utilities = 1,
+    Transportation = 2,
+    Outing = 3,
+    Groceries = 4,
+    Clothes = 5,
+    Electronics = 6,
+    Other = 7
 }
