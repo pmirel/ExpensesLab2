@@ -72,19 +72,19 @@ namespace ExpensesLab2.Controllers
         /// <param name="id">Specify the id of expense you wanna see the detail</param>
         /// <returns>A detail view of a specific expense</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Expense>> GetExpense(long id)
+        public async Task<ActionResult<ExpenseDetail>> GetExpense(long id)
         {
             var expense = await _context
                 .Expenses
                 .Include(e => e.Comments)
-                .SingleOrDefaultAsync(e => e.Id == id);
+                .FirstOrDefaultAsync(f => f.Id == id);
 
             if (expense == null)
             {
                 return NotFound();
             }
 
-            return expense;
+            return ExpenseDetail.FromExpense(expense);
         }
 
         // PUT: api/Expenses/5
