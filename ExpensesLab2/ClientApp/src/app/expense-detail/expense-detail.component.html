@@ -1,0 +1,54 @@
+
+
+<p *ngIf="!expense"><em>Loading...</em></p>
+
+<a [routerLink]="['/fetch-data']" routerLinkActive="active">Back</a>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="expense">
+
+    <tbody>
+        <tr>
+            <th>Description</th>
+            <td>{{ expense.description }}</td>
+        </tr>
+        <tr>
+            <th>Sum</th>
+            <td>{{ expense.sum }}</td>
+        </tr>
+        <tr>
+            <th>Location</th>
+            <td>{{ expense.location }}</td>
+        </tr>
+        <tr>
+            <th>Date Added</th>
+            <td>{{ expense.dateAdded }}</td>
+        </tr>
+
+        <tr>
+            <th>Currency</th>
+            <td>{{ expense.currency }}</td>
+        </tr>
+        <tr>
+            <th>Type Of Expense</th>
+            <td>{{ expense.typeOfExpense }}</td>
+        </tr>
+
+    </tbody>
+</table>
+
+<h2>Comments</h2>
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="expense">
+    <thead>
+        <tr>
+            <th>Text</th>
+            <th>Important</th>
+            
+        </tr>
+    </thead>
+    <tr *ngFor="let comment of expense.comments">
+        <td>{{ comment.text }}</td>
+        <td>{{ comment.important }}</td>
+        
+    </tr>
+</table>
+<a [routerLink]="['/fetch-data']" routerLinkActive="active">Back</a>
+

@@ -27,8 +27,9 @@
             <td>{{ expense.currency }}</td>
             <td>{{ expense.typeOfExpense }}</td>
             <td>{{ expense.numberOfComments }}</td>
-            <td><a>Detail</a><br /> <a>Edit</a><br /> <a>Delete</a></td>
-
+            <td><a  [routerLink]="['/fetch-data', expense.id]" routerLinkActive="active">Details</a><br />
+                <a routerLink="/first-component" routerLinkActive="active">Edit</a><br />
+                <a routerLink="/first-component" routerLinkActive="active">Delete</a></td>
 
         </tr>
     </tbody>

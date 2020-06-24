@@ -7,8 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FetchDataComponent {
     
-    public expenses: Expense[];
-    public comments: Comment[];
+    public expenses: Expense[]; 
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     
@@ -26,6 +25,7 @@ export class FetchDataComponent {
 
 
 interface Expense {
+    id: number;
     description: string;
     sum: number;
     location: string;
