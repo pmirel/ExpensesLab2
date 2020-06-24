@@ -27,9 +27,11 @@
             <td>{{ expense.currency }}</td>
             <td>{{ expense.typeOfExpense }}</td>
             <td>{{ expense.numberOfComments }}</td>
-            <td><a  [routerLink]="['/fetch-data', expense.id]" routerLinkActive="active">Details</a><br />
-                <a routerLink="/first-component" routerLinkActive="active">Edit</a><br />
-                <a routerLink="/first-component" routerLinkActive="active">Delete</a></td>
+            <td width="230px">
+                <a class="btn btn-primary" [routerLink]="['/fetch-data', expense.id]" routerLinkActive="active">Details</a>
+                <a class="btn btn-info" routerLink="/first-component" routerLinkActive="active">Edit</a>
+                <a class="btn btn-danger" (click)="delete(expense.id)">Delete</a>
+            </td>
 
         </tr>
     </tbody>

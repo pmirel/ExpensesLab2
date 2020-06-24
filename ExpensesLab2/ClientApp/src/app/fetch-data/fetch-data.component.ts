@@ -7,21 +7,40 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FetchDataComponent {
     
-    public expenses: Expense[]; 
+    public expenses: Expense[];
+    public name: string = "test";
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    
+    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+        this.loadExpenses();
+    }
 
-      http.get<Expense[]>(baseUrl + 'api/Expenses').subscribe(result => {
 
-          
-          this.expenses = result;
+    loadExpenses() {
+        this.http.get<Expense[]>(this.baseUrl + 'api/Expenses').subscribe(result => {
 
-          console.log(this.expenses);
-      }, error => console.error(error));
 
-  }
+            this.expenses = result;
+
+            console.log(this.expenses);
+        }, error => console.error(error));
+    }
+
+    delete(expenseId: string) {
+        if (confirm('Are you sure you want to delete the expense with id ' + expenseId + '?')) {
+            this.http.delete(this.baseUrl + 'api/Expenses/' + expenseId)
+                .subscribe
+                (
+                    result => {
+                        alert('Expense successfully deleted!');
+                        this.loadExpenses();
+                    },
+                    error => alert('Cannot delete expense - maybe it has comments?')
+                )
+        }
+    }
 }
+
+
 
 
 interface Expense {
