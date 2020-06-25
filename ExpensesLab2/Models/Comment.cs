@@ -14,6 +14,8 @@ namespace ExpensesLab2.Models
         public long ExpenseId { get; set; }
         [JsonIgnore]
         public Expense Expense { get; set; }
-        
+
+        public User AddedBy { get; set; }
+       
     }
 }

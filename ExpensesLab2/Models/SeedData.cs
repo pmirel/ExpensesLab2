@@ -1,8 +1,10 @@
+using ExpensesLab2.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 
 namespace ExpensesLab2.Models
@@ -13,7 +15,18 @@ namespace ExpensesLab2.Models
         {
             using (var context = new ExpensesDbContext(serviceProvider.GetRequiredService<DbContextOptions<ExpensesDbContext>>()))
             {
-                // Look for any movies.
+                if (!context.User.Any())
+                {
+                    context.User.Add(new User
+                    {
+                        FirstName = "Mirel",
+                        LastName = "Ionut",
+                        Username = "Imirel",
+                        Password = HashUtils.GetHashString("parolasigura")
+                    });
+                    context.SaveChanges();
+                }
+                // Look for any expenses.
                 if (context.Expenses.Any())
                 {
                     return;   // DB table has been seeded

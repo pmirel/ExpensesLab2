@@ -26,6 +26,8 @@ namespace ExpensesLab2.Models
         public string Currency  {get; set;}
         public TypeOfExpense TypeOfExpense { get; set; }
 
+        public User AddedBy { get; set; }
+
         public List<Comment> Comments { get; set; }
     }
 }

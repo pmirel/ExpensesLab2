@@ -13,6 +13,8 @@ namespace ExpensesLab2.Models
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<User> User { get; set; }
+
         internal object Include(Func<object, object> p)
         {
             throw new NotImplementedException();
