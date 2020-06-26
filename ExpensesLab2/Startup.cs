@@ -1,28 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using ExpensesLab2.Helpers;
 using ExpensesLab2.Models;
-using ExpensesLab2.Services;
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ExpensesLab2
 {
@@ -39,33 +31,24 @@ namespace ExpensesLab2
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
-            // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration.GetValue<string>("Authentication:Issuer"),
+                        ValidAudience = Configuration.GetValue<string>("Authentication:Issuer"),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Authentication:Secret"))),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             // configure DI (depency injection) for application services
-            services.AddScoped<IUserService, UserService>();
+            
 
             services
                 .AddControllers()
@@ -78,6 +61,18 @@ namespace ExpensesLab2
                  .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddDbContext<ExpensesDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ExpensesDbConnectionString")));
             services.AddControllers();
+
+            services
+                .AddMvc(options =>
+                {
+                    
+
+                    options.EnableEndpointRouting = false;
+                });
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+               .AddDefaultTokenProviders()
+               .AddEntityFrameworkStores<ExpensesDbContext>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -129,16 +124,22 @@ namespace ExpensesLab2
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting();
             app.UseSpaStaticFiles();
 
-            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>

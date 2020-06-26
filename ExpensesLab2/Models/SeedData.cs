@@ -15,17 +15,6 @@ namespace ExpensesLab2.Models
         {
             using (var context = new ExpensesDbContext(serviceProvider.GetRequiredService<DbContextOptions<ExpensesDbContext>>()))
             {
-                if (!context.User.Any())
-                {
-                    context.User.Add(new User
-                    {
-                        FirstName = "Mirel",
-                        LastName = "Ionut",
-                        Username = "Imirel",
-                        Password = HashUtils.GetHashString("parolasigura")
-                    });
-                    context.SaveChanges();
-                }
                 // Look for any expenses.
                 if (context.Expenses.Any())
                 {
