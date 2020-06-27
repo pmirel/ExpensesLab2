@@ -21,6 +21,8 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
 
+    { path: 'expenses', loadChildren: './expenses/expenses.module#ExpensesModule' },
+
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'counter', component: CounterComponent },
     { path: 'fetch-data', component: FetchDataComponent },

@@ -1,0 +1,50 @@
+
+<h1>Expenses list</h1>
+
+
+<button mat-icon-button matTooltip="Info" [matTooltipPosition]="'after'">
+    <mat-icon aria-label="Example icon-button with a heart icon" [routerLink]='["../edit"]'>add</mat-icon>
+</button>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="expenses">
+    
+    
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Sum</th>
+            <th>Location</th>
+            <th>Date Added</th>
+            <th>Currency</th>
+            <th>Type of expense</th>
+            <th>Number of comments</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let expense of expenses">
+            <td>{{ expense.description }}</td>
+            <td>{{ expense.sum }}</td>
+            <td>{{ expense.location }}</td>
+            <td>{{ expense.dateAdded}}</td>
+            <td>{{ expense.currency }}</td>
+            <td>{{ expense.typeOfExpense }}</td>
+            <td>{{ expense.numberOfComments }}</td>
+            <td width="230px">
+                <button mat-icon-button matTooltip="Info" [matTooltipPosition]="'after'">
+                    <mat-icon aria-label="Example icon-button with a heart icon" [routerLink]="['/fetch-data', expense.id]">info</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Edit" [matTooltipPosition]="'after'">
+                    <mat-icon aria-label="Example icon-button with a heart icon" [routerLink]="['../edit', expense.id]">edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Delete" [matTooltipPosition]="'after'">
+                    <mat-icon aria-label="Example icon-button with a heart icon " (click)="deleteExpense(expense)">delete</mat-icon>
+                </button>
+            </td>
+
+        </tr>
+    </tbody>
+
+</table>
+
+

@@ -2,7 +2,7 @@
 
 <p *ngIf="!expense"><em>Loading...</em></p>
 
-<a class="btn btn-info" [routerLink]="['/fetch-data']" routerLinkActive="active">Back</a>
+<a class="btn btn-info" [routerLink]="['/expenses']" routerLinkActive="active">Back</a>
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="expense">
 
     <tbody>
@@ -50,5 +50,5 @@
         
     </tr>
 </table>
-<a class="btn btn-info" [routerLink]="['/fetch-data']" routerLinkActive="active">Back</a>
+<a class="btn btn-info" [routerLink]="['/expenses']" routerLinkActive="active">Back</a>
 

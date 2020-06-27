@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ExpensesLab2.Models;
 using System.Runtime.InteropServices.WindowsRuntime;
 using ExpensesLab2.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExpensesLab2.Controllers
 {
@@ -30,6 +31,7 @@ namespace ExpensesLab2.Controllers
         /// <param name="to">Filter expenses to a specific date. Leave empty for displaying all.</param>
         /// <param name="typeOfExpense">Filter expenses by a specific type. Leave empty for displaying all.</param>
         /// <returns>Alist of all the expenses</returns>
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ExpensesWithNumberOfComments>>> GetExpenses(
             DateTimeOffset? from = null,

@@ -1,0 +1,61 @@
+<p>
+    Add/Edit expense
+</p>
+
+<mat-card class="example-card">
+    <form *ngIf="formGroup" [formGroup]="formGroup">
+        <div class="example-container">
+
+
+            <mat-form-field>
+                <input matInput placeholder="Description" formControlName="description" type="text">
+
+                <mat-error *ngIf="formGroup.get('description').touched && formGroup.get('description').errors && formGroup.get('description').errors.required">
+                    Description required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Sum" formControlName="sum" type="number">
+
+                <mat-error *ngIf="formGroup.get('sum').touched && formGroup.get('sum').errors && formGroup.get('sum').errors.required">
+                    Sum required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Location" formControlName="location" type="text">
+
+                <mat-error *ngIf="formGroup.get('location').touched && formGroup.get('location').errors && formGroup.get('location').errors.required">
+                    Sum required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Date added</mat-label>
+                <input matInput [matDatepicker]="dpDateAdded" formControlName="dateAdded">
+                <mat-datepicker-toggle matSuffix [for]="dpDateAdded"></mat-datepicker-toggle>
+                <mat-datepicker #dpDateAdded></mat-datepicker>
+
+                <mat-error *ngIf="formGroup.get('dateAdded').touched && formGroup.get('dateAdded').errors && formGroup.get('dateAdded').errors.required">
+                    Date added required!
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Currency" formControlName="currency" type="text">
+
+                <mat-error *ngIf="formGroup.get('currency').touched && formGroup.get('currency').errors && formGroup.get('currency').errors.required">
+                    Currency required!
+                </mat-error>
+            </mat-form-field>
+
+
+
+        </div>
+        <div class="example-button-row">
+            <button mat-raised-button color="primary" (click)="save()">Save</button>
+            <button mat-raised-button color="primary" [routerLink]='routerLink'>Cancel</button>
+        </div>
+    </form>
+</mat-card>
