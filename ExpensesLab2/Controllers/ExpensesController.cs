@@ -9,6 +9,7 @@ using ExpensesLab2.Models;
 using System.Runtime.InteropServices.WindowsRuntime;
 using ExpensesLab2.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using ExpensesLab2.ViewModel.Collections;
 
 namespace ExpensesLab2.Controllers
 {
@@ -31,12 +32,16 @@ namespace ExpensesLab2.Controllers
         /// <param name="to">Filter expenses to a specific date. Leave empty for displaying all.</param>
         /// <param name="typeOfExpense">Filter expenses by a specific type. Leave empty for displaying all.</param>
         /// <returns>Alist of all the expenses</returns>
+        /// // <param name="page">The page of results, starting from 0.</param>
+        /// <param name="itemsPerPage">The number of expenses to display per page.</param>
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ExpensesWithNumberOfComments>>> GetExpenses(
+        public async Task<IActionResult> GetExpenses(
             DateTimeOffset? from = null,
             DateTimeOffset? to = null,
-            [FromQuery]Models.TypeOfExpense? typeOfExpense = null)
+            [FromQuery]Models.TypeOfExpense? typeOfExpense = null,
+            [FromQuery]int page = 0,
+            [FromQuery]int itemsPerPage = 15)  
         {
             IQueryable<Expense> result = _context.Expenses;
 
@@ -53,17 +58,23 @@ namespace ExpensesLab2.Controllers
                 result = result.Where(f => f.TypeOfExpense == typeOfExpense);
             }
             var resultList = await result
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
                 .Select(f => new ExpensesWithNumberOfComments {
                     Id = f.Id,
                     Description = f.Description,
                     Sum = f.Sum,
+                    Location = f.Location,
                     DateAdded = f.DateAdded,
                     Currency = f.Currency,
                     TypeOfExpense = f.TypeOfExpense,
                     NumberOfComments = f.Comments.Count
                 })
                 .ToListAsync();
-            return resultList;
+
+            var paginatedList = new PaginatedList<ExpensesWithNumberOfComments>(page, await result.CountAsync(), itemsPerPage);
+            paginatedList.Items.AddRange(resultList);
+            return Ok(paginatedList);
                 
         }
 

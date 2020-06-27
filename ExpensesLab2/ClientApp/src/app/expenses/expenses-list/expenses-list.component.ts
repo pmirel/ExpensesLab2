@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Expense } from '../expenses.models';
 import { ExpensesService } from '../expenses.service';
+import { PaginatedExpenses } from '../paginatedExpenses.models';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-expenses-list',
@@ -10,18 +12,20 @@ import { ExpensesService } from '../expenses.service';
 export class ExpensesListComponent implements OnInit {
 
     public displayedColumns: string[] = ['description', 'sum', 'location', 'dateAdded', 'currency', 'typeOfExpense', 'numberOfComments', 'action'];
-    public expenses: Expense[];
+    public expenses: PaginatedExpenses;
+    public pageEvent: PageEvent;
     
 
     constructor(private expensesService: ExpensesService) {
     }
 
     ngOnInit() {
-        this.loadExpenses();
+        this.loadExpenses(null);
     }
 
-    loadExpenses() {
-        this.expensesService.listExpenses().subscribe(res => {
+    loadExpenses(event?: PageEvent) {
+        this.expenses = null;
+        this.expensesService.listExpenses(event).subscribe(res => {
             this.expenses = res;
             
         });

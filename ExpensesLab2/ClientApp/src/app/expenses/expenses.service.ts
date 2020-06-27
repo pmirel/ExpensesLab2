@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { Expense } from './expenses.models';
 import { ApplicationService } from '../core/services/application.service';
+import { PaginatedExpenses } from './paginatedExpenses.models';
+import { PageEvent } from '@angular/material/paginator';
 //import { PaginatedExpenses } from './paginatedExpenses.models';
 //import { PageEvent } from '@angular/material/paginator';
 
@@ -17,8 +19,12 @@ export class ExpensesService {
         return this.http.get<Expense>(`${this.applicationService.baseUrl}api/Expenses/${id}`);
     }
 
-    listExpenses() {
-        return this.http.get<Expense[]>(`${this.applicationService.baseUrl}api/Expenses`);
+    listExpenses(event?: PageEvent) {
+        let pageIndex = event ? event.pageIndex + "" : "0";
+        let itemsPerPage = event ? event.pageSize + "" : "25";
+        console.log(event);
+        let params = new HttpParams().set("page", pageIndex).set("itemsPerPage", itemsPerPage); //Create new HttpParams
+        return this.http.get<PaginatedExpenses>(`${this.applicationService.baseUrl}api/Expenses`, { params: params });
     }
 
     saveExpense(expense: Expense) {

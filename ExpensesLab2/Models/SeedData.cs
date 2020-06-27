@@ -16,46 +16,29 @@ namespace ExpensesLab2.Models
             using (var context = new ExpensesDbContext(serviceProvider.GetRequiredService<DbContextOptions<ExpensesDbContext>>()))
             {
                 // Look for any expenses.
-                if (context.Expenses.Any())
+                if (context.Expenses.Count() >= 50)
                 {
                     return;   // DB table has been seeded
                 }
 
-                context.Expenses.AddRange(
-                    new Expense
-                    {
-                        Description = "Cumparatura",
-                        Sum = 12.25,
-                        Location = "Lidl",
-                        DateAdded = DateTime.Now,
-                        Currency = "Lei",
-                        TypeOfExpense = TypeOfExpense.Food
+                for (int i = 1; i <= 50; ++i)
+                {
+                    context.Expenses.Add(
+                        new Expense
+                        {
+                            Description = $"Description-{i}",
+                            Sum = i,
+                            Location = "Cluj",
+                            DateAdded = DateTime.Now,
+                            Currency = "Lei",
+                            TypeOfExpense = TypeOfExpense.Other
+                        }
+                    );
+                }
 
-                    },
-
-                    new Expense
-                    {
-                        Description = "Imbracaminte",
-                        Sum = 25.56,
-                        Location = "H&M",
-                        DateAdded = DateTime.Now,
-                        Currency = "Lei",
-                        TypeOfExpense = TypeOfExpense.Clothes
-
-                    },
-
-                    new Expense
-                    {
-                        Description = "Papuci",
-                        Sum = 10,
-                        Location = "PapucSRL",
-                        DateAdded = DateTime.Now,
-                        Currency = "Lei",
-                        TypeOfExpense = TypeOfExpense.Clothes
-
-                    }
-                );
                 context.SaveChanges();
+
+                
             }
         }
     }
